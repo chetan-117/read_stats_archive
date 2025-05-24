@@ -1,0 +1,8 @@
+[] should we consider the parameters related to the bootloader
+    - bootloader version
+    - bootloader type
+
+
+[x] CPU usage done 
+
+[ ] de-couple from the "free -h" to get the information related to the memory from the files instead 
