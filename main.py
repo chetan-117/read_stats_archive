@@ -5,7 +5,8 @@
 import json
 
 # my hand made files - ohh yeah
-from cpu_usage import monitor_cpu_usage
+from cpu_related import monitor_cpu_usage, get_cpu_name
+from memory_related import get_memory_related_info
 from utilities import *
 
 
@@ -22,7 +23,7 @@ if __name__ == "__main__":
     """
 
     stats: dict = {
-        "memory_related": get_memory_related_info_via_command(),
+        "memory_related": get_memory_related_info(),
         "networks": {
             "interface_name": {
                 "ip": "ip address",
@@ -46,9 +47,9 @@ if __name__ == "__main__":
         "uptime_pretty": get_uptime_pretty(get_uptime_seconds()),
         "kernel": get_kernel_version(),
         "number of installed packages": "value to get",
-        "shell": get_shell(),
+        # "shell": get_shell(),
         "cpu usage": monitor_cpu_usage(continuous=False),
-        "cpu info": "everything related to the CPU",
+        "cpu info": get_cpu_name(),
         "thermals_information": {
             "fan": "rpm speed",
             "cpu temperatures": [

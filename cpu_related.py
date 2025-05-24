@@ -2,6 +2,19 @@ from functools import reduce
 from time import sleep
 
 
+def get_cpu_name() -> str:
+    return (
+        list(
+            filter(
+                lambda row: row.startswith("model name"),
+                open("/proc/cpuinfo").readlines(),
+            )
+        )[0]
+        .split(":")[-1]
+        .strip()
+    )
+
+
 # user , nice , system
 def get_total_avg_percore() -> dict:
     info = list(
@@ -65,4 +78,6 @@ def monitor_cpu_usage(continuous: bool):
 
 
 if __name__ == "__main__":
-    monitor_cpu_usage()
+    # monitor_cpu_usage()
+
+    print(get_cpu_name())
