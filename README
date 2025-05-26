@@ -8,6 +8,6 @@
 
 [] number of installed packages
 
-[] cpu information like name, clock speed etc.
+[x] cpu information like name, clock speed etc.
 
 --- i don't think SHELL environment variable is useful for us
