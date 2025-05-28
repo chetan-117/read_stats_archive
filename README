@@ -6,8 +6,13 @@
 
 [x] de-couple from the "free -h" to get the information related to the memory from the files instead
 
-[] number of installed packages
+[x] number of installed packages
 
 [x] cpu information like name, clock speed etc.
 
 --- i don't think SHELL environment variable is useful for us
+
+[x] network related information 
+=== partial => getting the IP addresses is still to be done 
+
+[] DNS names 

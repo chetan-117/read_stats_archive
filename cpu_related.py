@@ -1,5 +1,7 @@
 from functools import reduce
 from time import sleep
+import os
+from json import dumps
 
 
 def get_cpu_name() -> str:
@@ -77,7 +79,34 @@ def monitor_cpu_usage(continuous: bool):
         sleep(1)
 
 
+def cpu_temperatures_core_wise() -> dict:
+    temps: dict = {}
+
+    base_dir = "/sys/devices/platform/coretemp.0/hwmon/hwmon1"
+
+    files = sorted(
+        list(
+            filter(
+                lambda name: name.startswith("temp")
+                and (name.endswith("label") or name.endswith("input")),
+                os.listdir(base_dir),
+            )
+        )
+    )
+
+    for i in range(0, len(files), 2):
+        label: str = open(base_dir + "/" + files[i + 1]).read().strip()
+        # temperature value is in milli-celcius
+        value = int(open(base_dir + "/" + files[i]).read().strip()) / 10**3
+
+        temps[label] = value
+
+    return temps
+
+
 if __name__ == "__main__":
     # monitor_cpu_usage()
 
-    print(get_cpu_name())
+    # print(get_cpu_name())
+
+    print(dumps(cpu_temperatures_core_wise()))

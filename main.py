@@ -5,8 +5,10 @@
 import json
 
 # my hand made files - ohh yeah
-from cpu_related import monitor_cpu_usage, get_cpu_name
+from cpu_related import monitor_cpu_usage, get_cpu_name, cpu_temperatures_core_wise
 from memory_related import get_memory_related_info
+from network_related import get_network_information
+from packages_releated import detect_installed_packages
 from utilities import *
 
 
@@ -25,20 +27,7 @@ if __name__ == "__main__":
     stats: dict = {
         "memory_related": get_memory_related_info(),
         "networks": {
-            "interface_name": {
-                "ip": "ip address",
-                "tx_packets": "some number",
-                "rx_packets": "some number",
-                "tx_bytes": "number in bytes",
-                "rx_bytes": "number in bytes",
-            },
-            "another_interface_name": {
-                "ip": "ip address",
-                "tx_packets": "some number",
-                "rx_packets": "some number",
-                "tx_bytes": "number in bytes",
-                "rx_bytes": "number in bytes",
-            },
+            "host": get_network_information(),
             "dns_resolve_file": {},
         },
         "OS": get_os_name(),
@@ -46,15 +35,13 @@ if __name__ == "__main__":
         "uptime_seconds": get_uptime_seconds(),
         "uptime_pretty": get_uptime_pretty(get_uptime_seconds()),
         "kernel": get_kernel_version(),
-        "number of installed packages": "value to get",
+        "number of installed packages": detect_installed_packages(),
         # "shell": get_shell(),
         "cpu usage": monitor_cpu_usage(continuous=False),
         "cpu info": get_cpu_name(),
         "thermals_information": {
             "fan": "rpm speed",
-            "cpu temperatures": [
-                # multiple values for the multiple cores of the CPU
-            ],
+            "cpu temperatures": cpu_temperatures_core_wise(),
         },
     }
 

@@ -1,18 +1,6 @@
 from json import dumps
 from functools import reduce
-
-
-def memory_proper_format(memory_value) -> str:
-    # by default all the things are in kB, so I only have to
-    # convert with a factor of 20 to make them in to GB
-    gega_factor = 2**20
-    mega_factor = 2**10
-
-    return (
-        str(round(memory_value / gega_factor, 3)) + " GB"
-        if memory_value >= gega_factor
-        else str(round(memory_value / mega_factor)) + " MB"
-    )
+from utilities import bytes_proper_format
 
 
 def get_memory_related_info() -> dict:
@@ -58,16 +46,16 @@ def get_memory_related_info() -> dict:
 
     return {
         "memory": {
-            "mem_total": memory_proper_format(mem_total),
-            "mem_free": memory_proper_format(mem_free),
-            "mem_available": memory_proper_format(mem_available),
-            "mem_used": memory_proper_format(mem_used),
-            "buffer_cache": memory_proper_format(buffer_cache),
+            "mem_total": bytes_proper_format(mem_total),
+            "mem_free": bytes_proper_format(mem_free),
+            "mem_available": bytes_proper_format(mem_available),
+            "mem_used": bytes_proper_format(mem_used),
+            "buffer_cache": bytes_proper_format(buffer_cache),
         },
         "swap": {
-            "swap_total": memory_proper_format(swap_total),
-            "swap_used": memory_proper_format(swap_used),
-            "swap_free": memory_proper_format(swap_free),
+            "swap_total": bytes_proper_format(swap_total),
+            "swap_used": bytes_proper_format(swap_used),
+            "swap_free": bytes_proper_format(swap_free),
         },
     }
 
