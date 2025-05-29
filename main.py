@@ -41,7 +41,7 @@ if __name__ == "__main__":
         "cpu info": get_cpu_name(),
         "thermals_information": {
             "fan": "rpm speed",
-            "cpu temperatures": cpu_temperatures_core_wise(),
+            "cpu temperatures(°C)": cpu_temperatures_core_wise(),
         },
     }
 

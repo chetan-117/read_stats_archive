@@ -1,4 +1,5 @@
 import os
+import subprocess
 import re
 from json import dumps
 from utilities import bytes_proper_format
@@ -38,9 +39,11 @@ def get_network_information() -> dict:
         for info in filtered_info
     }
 
+    interface_ip_addresses = parse_fib_trie_for_ip_addr()
+
     full_interface_information = {
         interface: {
-            # "ip_addr": interface_ip_addresses[interface],
+            "ip_addr": interface_ip_addresses[interface],
             "mac_addr": interface_mac_addresses[interface],
             "data_flow": interface_flow_info[interface],
         }
@@ -53,5 +56,50 @@ def get_network_information() -> dict:
     return full_interface_information
 
 
+"""
+ ================================== cancelled ==================================
+    get only the Local section --> then get the ip with "/32 host LOCAL" as its value
+        this is the device IP
+
+    the network IP with the address of the last octet as 1 should be the gateway
+
+    now since i have the IP address and its index, i have to move upwards the ladder to
+    find the line starting with +-- because that contains information about the nw and the subnet etc.
+
+    gateway is either the first usable address or the last usable address in the ip range
+
+# to parse the fib_trie file
+def parse_fib_trie():
+
+    fib_trie_file = open("/proc/net/fib_trie").readlines()
+    fib_trie_file = fib_trie_file[: fib_trie_file.__len__() // 2]
+
+    valid_ips_match = []
+    for i in range(fib_trie_file.__len__()):
+        if "/32 host LOCAL" in fib_trie_file[i]:
+            valid_ips_match.append(i)
+
+    # there is some confusion that I am still facing and it is about the (not the netmask) but about the
+    # gateway information and I need it to be present in that file but I can't seem to find that one
+
+    return list(map(lambda index: fib_trie_file[index - 1].strip(), valid_ips_match))
+"""
+
+
+def parse_fib_trie_for_ip_addr():
+    ip_ifname = subprocess.run(
+        "bash ./find_ifname_by_ip.sh", shell=True, text=True, capture_output=True
+    ).stdout
+
+    return {
+        row.split(":")[0].strip(): row.split(":")[1].strip()
+        for row in ip_ifname.strip().split("\n")
+    }
+
+
 if __name__ == "__main__":
     print(dumps(get_network_information()))
+    # print(parse_fib_trie())
+
+    # ip_ifname = parse_fib_trie_for_ip_addr()
+    # print(f"{ip_ifname=}")
