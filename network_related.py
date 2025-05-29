@@ -97,9 +97,35 @@ def parse_fib_trie_for_ip_addr():
     }
 
 
+# dns related information to be retrieved from the file /run/systemd/resolve/resolv.conf
+# for debian only systems -> /run/systemd/netif/leases
+def get_dns_info():
+    debian_netif_location = "/run/systemd/netif/leases"
+    if (
+        os.path.exists(debian_netif_location)
+        and os.listdir(debian_netif_location).__len__() != 0
+    ):
+        domain_info = {
+            row.split("=")[0]: row.split("=")[1].strip()
+            for row in list(
+                filter(
+                    lambda line: line.startswith("DNS")
+                    or line.startswith("DOMAINNAME"),
+                    open(os.listdir(debian_netif_location)[0]).readlines(),
+                )
+            )
+        }
+
+        return domain_info
+
+    return None
+
+
 if __name__ == "__main__":
-    print(dumps(get_network_information()))
+    # print(dumps(get_network_information()))
     # print(parse_fib_trie())
 
     # ip_ifname = parse_fib_trie_for_ip_addr()
     # print(f"{ip_ifname=}")
+
+    print(f"{get_dns_info()=}")

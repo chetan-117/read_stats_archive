@@ -7,7 +7,7 @@ import json
 # my hand made files - ohh yeah
 from cpu_related import monitor_cpu_usage, get_cpu_name, cpu_temperatures_core_wise
 from memory_related import get_memory_related_info
-from network_related import get_network_information
+from network_related import get_network_information, get_dns_info
 from packages_releated import detect_installed_packages
 from utilities import *
 
@@ -28,7 +28,7 @@ if __name__ == "__main__":
         "memory_related": get_memory_related_info(),
         "networks": {
             "host": get_network_information(),
-            "dns_resolve_file": {},
+            "dns_resolve_file": get_dns_info(),
         },
         "OS": get_os_name(),
         "hostname": get_hostname(),
@@ -40,7 +40,7 @@ if __name__ == "__main__":
         "cpu usage": monitor_cpu_usage(continuous=False),
         "cpu info": get_cpu_name(),
         "thermals_information": {
-            "fan": "rpm speed",
+            "fan": "NA",
             "cpu temperatures(°C)": cpu_temperatures_core_wise(),
         },
     }
