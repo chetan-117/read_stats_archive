@@ -121,6 +121,32 @@ def get_dns_info():
     return None
 
 
+"""
+    this thing is in work in progress, still don't have much idea on how to implement this thing 
+"""
+"""
+def parse_ip_from_hex(ip: str) -> str:
+    result: list = []
+
+    for i in range(0, len(ip), 2):
+        result.append(str(int("0x" + ip[i : i + 2], 16)))
+
+    result.reverse()
+    return ".".join(result)
+
+
+def get_ip_info():
+    route_table = open("/proc/net/route").readlines()[1:]
+
+    iname_gateway_map = {}
+    for row in route_table:
+        cleaned_row = re.sub(r"\s+", " ", row)
+        iname, _, gateway, *_ = cleaned_row.split(" ")
+
+        if gateway != "00000000":
+            iname_gateway_map[iname] = parse_ip_from_hex(gateway)
+"""
+
 if __name__ == "__main__":
     # print(dumps(get_network_information()))
     # print(parse_fib_trie())
