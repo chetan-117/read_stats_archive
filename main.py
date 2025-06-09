@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
             mqtt_client.publish(
                 topic="machine_stats/current_stats",
-                payload=str(
+                payload=json.dumps(
                     {"stats_time": datetime.datetime.now().__str__(), "stats": stats}
                 ),
                 qos=0,
